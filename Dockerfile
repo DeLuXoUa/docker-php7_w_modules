@@ -63,8 +63,8 @@ RUN mkdir gearman
 RUN cd /gearman && wget https://github.com/wcgallego/pecl-gearman/archive/master.tar.gz \
 && tar -zxvf master.tar.gz
 RUN cd /gearman/pecl-gearman-master && phpize
-RUN cd /gearman/pecl-gearman-master && ./configure 
-RUN cd /gearman/pecl-gearman-master && make 
+RUN cd /gearman/pecl-gearman-master && ./configure
+RUN cd /gearman/pecl-gearman-master && make
 RUN cd /gearman/pecl-gearman-master && make install
 
 RUN touch /etc/php/7.0/mods-available/gearman.ini
@@ -74,27 +74,17 @@ RUN ln -s /etc/php/7.0/mods-available/gearman.ini /etc/php/7.0/cli/conf.d/20-gea
 RUN mkdir -p /usr/local/etc/php-fpm.d/
 RUN mkdir -p /usr/local/var/log/
 ADD php-fpm /usr/local/sbin/
-#RUN mv php-fpm /usr/local/sbin/php-fpm
 ADD docker.conf /usr/local/etc/php-fpm.d/
-#RUN mv docker.conf /usr/local/etc/php-fpm.d/docker.conf
 ADD php-fpm.conf /usr/local/etc/
-#RUN mv php-fpm.conf /usr/local/etc/php-fpm.conf
 ADD www.conf /usr/local/etc/php-fpm.d/
-#RUN mv www.conf /usr/local/etc/php-fpm.d/www.conf
 ADD www.conf.default /usr/local/etc/php-fpm.d/
-#RUN mv www.conf /usr/local/etc/php-fpm.d/www.conf.default
 ADD zz-docker.conf /usr/local/etc/php-fpm.d/
-#RUN mv zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
-#/usr/local/etc/php-fpm.conf
 
-RUN apt-get install -y php-fpm
-RUN echo extension=redis.so >> /etc/php/7.0/fpm/php.ini
+#RUN apt-get install -y php-fpm
 
 ADD php.ini /usr/local/etc/php/
 RUN  mkdir -p  /usr/local/lib/php/extensions/no-debug-non-zts-20151012/
 RUN cp -r /usr/lib/php/20151012/* /usr/local/lib/php/extensions/no-debug-non-zts-20151012/
-
-
 
 WORKDIR /var/www
 
